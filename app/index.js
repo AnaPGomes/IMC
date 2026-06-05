@@ -1,24 +1,22 @@
-const API_URL = 'https://sua-api.onrender.com'; // trocar depois do deploy
+const express = require('express');
+const path = require('path');
 
-document.getElementById('calcular').addEventListener('click', async () => {
-  const peso = parseFloat(document.getElementById('peso').value);
-  const altura = parseFloat(document.getElementById('altura').value);
-  const div = document.getElementById('resultado');
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-  try {
-    const res = await fetch(`${API_URL}/imc`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ peso, altura })
-    });
-    const data = await res.json();
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'view'));
 
-    if (data.erro) {
-      div.textContent = `Erro: ${data.erro}`;
-    } else {
-      div.textContent = `IMC: ${data.imc} — ${data.classificacao}`;
-    }
-  } catch (e) {
-    div.textContent = 'Erro ao conectar com a API';
-  }
+app.use(express.static(__dirname));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.render('paginaIMC');
 });
+
+app.listen(PORT, () => {
+    console.log(`App rodando em http://localhost:${PORT}`);
+});
+
+module.exports = app;
