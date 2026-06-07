@@ -32,7 +32,7 @@ jobs:
       - name: Instalar Chrome
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 138
+          chrome-version: 148
       - name: Instalar dependencias
         run: npm ci
       - name: Subir servidor
