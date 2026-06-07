@@ -1,0 +1,55 @@
+name: deploy IMC
+
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Rodar testes unitarios
+        run: npm test
+
+  functional-tests:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar Chrome
+        run: sudo apt-get install -y google-chrome-stable
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Subir servidor
+        run: npm start &
+      - name: Aguardar servidor
+        run: sleep 3
+      - name: Rodar testes funcionais
+        run: npm run test:e2e
+
+  deploy:
+    needs: functional-tests
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy_Render
+        id: Deploy_Render
+        run: |
+          RESPONSE=$(curl --request GET \
+            --url ${{ secrets.DEPLOY_HOOK }} \
+            --header 'accept: application/json' \
+            --header 'content-type: application/json')
+          echo "Deploy response: $RESPONSE"
