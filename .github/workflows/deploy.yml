@@ -31,6 +31,8 @@ jobs:
           node-version: '20'
       - name: Instalar Chrome
         uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 138
       - name: Instalar dependencias
         run: npm ci
       - name: Subir servidor
