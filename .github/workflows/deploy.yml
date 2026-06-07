@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '20'
       - name: Instalar Chrome
-        run: sudo apt-get install -y google-chrome-stable
+        uses: browser-actions/setup-chrome@v1
       - name: Instalar dependencias
         run: npm ci
       - name: Subir servidor
