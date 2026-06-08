@@ -10,12 +10,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Instalar dependencias
         run: npm ci
+
       - name: Rodar testes unitarios
         run: npm test
 
@@ -25,20 +28,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Instalar Chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 148
+
       - name: Instalar dependencias
         run: npm ci
+
       - name: Subir servidor
         run: npm start &
+
       - name: Aguardar servidor
-        run: sleep 3
+        run: sleep 10
+
       - name: Rodar testes funcionais
         run: npm run test:e2e
 
@@ -48,7 +52,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy_Render
-        id: Deploy_Render
         run: |
           RESPONSE=$(curl --request GET \
             --url ${{ secrets.DEPLOY_HOOK }} \
