@@ -2,11 +2,14 @@ name: deploy IMC
 
 on:
   push:
-    branches: [main, dev]
+    branches:
+      - main
+      - dev
 
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,6 +28,7 @@ jobs:
   functional-tests:
     needs: unit-tests
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +37,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Instalar Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 148
 
       - name: Instalar dependencias
         run: npm ci
@@ -50,6 +59,7 @@ jobs:
     needs: functional-tests
     if: success()
     runs-on: ubuntu-latest
+
     steps:
       - name: Deploy_Render
         run: |
