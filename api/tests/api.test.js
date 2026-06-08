@@ -1,12 +1,12 @@
 const { calcularIMC } = require('../src/imc');
 
-describe('Teste de cálculo de IMC', () => {
+describe('teste de cálculo de IMC', () => {
 
-    test('IMC de 70kg e 1.75m', () => {
-        const resultado = calcularIMC(70, 1.75);
+    test(' 30kg e 1.30m', () => {
+        const resultado = calcularIMC(30, 1.30);
 
-        expect(resultado.imc).toBeCloseTo(22.86, 2);
-        expect(resultado.classificacao).toBe('Peso normal');
+        expect(resultado.imc).toBeCloseTo(17.75, 2);
+        expect(resultado.classificacao).toBe('Abaixo do peso');
     });
 
 });

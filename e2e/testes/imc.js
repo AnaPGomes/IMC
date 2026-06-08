@@ -3,7 +3,7 @@ const chrome = require('selenium-webdriver/chrome');
 const fs = require('fs');
 const path = require('path');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:8080';
 const SCREENSHOTS_DIR = path.join(__dirname, '..', 'screenshots');
 
 if (!fs.existsSync(SCREENSHOTS_DIR)) {
@@ -50,8 +50,8 @@ async function main() {
 
         console.log('Preenchendo dados...');
 
-        await driver.findElement(By.id('peso')).sendKeys('70');
-        await driver.findElement(By.id('altura')).sendKeys('1.75');
+        await driver.findElement(By.id('peso')).sendKeys('30');
+        await driver.findElement(By.id('altura')).sendKeys('1.30');
 
         await tiraFoto('dados_preenchidos');
 
@@ -69,7 +69,7 @@ async function main() {
 
         console.log('Resultado encontrado:', resultado);
 
-        if (!resultado.includes('22')) {
+        if (!resultado.includes('17.75')) {
             throw new Error(`Resultado inválido: ${resultado}`);
         }
 
